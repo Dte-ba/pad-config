@@ -1,0 +1,23 @@
+#!/bin/bash
+ 
+APP_PATH='/home/datos/pad'
+APP_ENV='desktop'
+
+case $1 in
+  start)
+   echo -n $"Starting pad: "
+   cd $APP_PATH
+     echo $$ > /var/run/pad.pid;
+     exec 2>&1 /usr/local/bin/node $APP_PATH/$APP_ENV.js >> $APP_PATH/app-linux.log &
+     echo " [ OK ]"
+     ;;
+   stop)  
+   echo -n $"Stoping pad: "
+     # kill `cat /var/run/pad.pid` 
+pkill -f 'node $APP_PATH/$APP_ENV.js'
+echo " [ OK ]"
+     ;;
+   *)  
+     echo "usage: xyz {start|stop}" ;;
+esac
+exit 0
